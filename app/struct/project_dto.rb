@@ -11,24 +11,26 @@ class ProjectDto < ActionWebService::Struct
 #          <identifier xsi:type="xsd:string">redmine-mylyn</identifier>
 #          <status xsi:type="xsd:int">1</status>
 
-  member :id, :int
+  member :number, :int
   member :identifier, :string
   member :name, :string
   member :issue_edit_allowed, :boolean
-  member :project_saved, :boolean
-  member :new_project, :boolean
+  #member :description, :string
+  #member :project_saved, :boolean
+  #member :new_project, :boolean
   
   def self.create project
     ProjectDto.new(
-      :id => project.id,
+      :number => project.id,
       :identifier => project.identifier,
       :name => project.name,
       :issue_edit_allowed => User.current.allowed_to?(:edit_issues, project)
+      #:description => project.description
  #     :issueCustomFiels => project.custom_fields
     )
   end
   
-  def self.createAndReturn(project,boo_saved,boo_new) 
+  /def self.createAndReturn(project,boo_saved,boo_new) 
   	return ProjectDto.new(
       :id => project.id,
       :identifier => project.identifier,
@@ -37,5 +39,5 @@ class ProjectDto < ActionWebService::Struct
       :project_saved => boo_saved,
       :new_project => boo_new
       )
-  end
+  end/
 end

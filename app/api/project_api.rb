@@ -11,9 +11,9 @@ class ProjectApi < ActionWebService::API::Base
 
   api_method :find_all,
     :returns => [[ProjectDto]]
- 
-   api_method :find_one_project,
-    :expects => [:int],
+  
+  api_method :find_one_project,
+    :expects => [:string],
     :returns => [ProjectDto]
       
   api_method :create_one_project,
@@ -24,5 +24,4 @@ class ProjectApi < ActionWebService::API::Base
   	:expects => [:string, :string, :string],
     :returns => [ProjectDto]    
 
-    
 end

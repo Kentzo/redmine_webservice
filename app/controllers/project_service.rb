@@ -13,24 +13,22 @@ class ProjectService < ActionWebService::Base
   web_service_api ProjectApi
   
   def find_all 
-    
     projects = Project.find(:all, :joins => :enabled_modules,
                   :conditions => [ "enabled_modules.name = 'issue_tracking' AND #{Project.visible_by}"])
     projects.collect! {|x|ProjectDto.create(x)}
-
     return projects
   end
   
   def find_one_project(projectId)
-  
-  	project = Project.find(projectId)
-
-    boo_NewProject = false
-    boo_SavedProject = false
-	dto_Project = ProjectDto.createAndReturn(project, boo_SavedProject, boo_NewProject)
+    project = Project.find_by_identifier(projectId)
+    projects = Project.find(:all, :joins => :enabled_modules,
+                  :conditions => [ "enabled_modules.name = 'issue_tracking' AND #{Project.visible_by}"])
+    if projects.include?(project)
+      dto_project = ProjectDto.create(project)
+    end
   end
   
-  def create_one_project(projectIdentifier, projectName, projectDescription)
+  /def create_one_project(projectIdentifier, projectName, projectDescription)
     # I look for a project with this identifier
     project = Project.find_by_identifier(projectIdentifier)
     
@@ -69,7 +67,7 @@ class ProjectService < ActionWebService::Base
 	dto_Project = ProjectDto.createAndReturn(project,boo_SavedProject,boo_NewProject)
 		
 	return dto_Project	
-  end
+  end 
   
   def update_one_project(projectIdentifier, projectName, projectDescription)
     # I look for a project with this identifier
@@ -100,6 +98,5 @@ class ProjectService < ActionWebService::Base
 	dto_Project = ProjectDto.createAndReturn(project,boo_SavedProject,boo_NewProject)
 		
 	return dto_Project	
-  end
-  
+  end/
 end
