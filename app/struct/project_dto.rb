@@ -14,17 +14,18 @@ class ProjectDto < ActionWebService::Struct
   member :number, :int
   member :identifier, :string
   member :name, :string
-  member :issue_edit_allowed, :boolean
+  #member :issue_edit_allowed, :boolean
   #member :description, :string
   #member :project_saved, :boolean
   #member :new_project, :boolean
   
   def self.create project
     ProjectDto.new(
+    #information for view
       :number => project.id,
       :identifier => project.identifier,
-      :name => project.name,
-      :issue_edit_allowed => User.current.allowed_to?(:edit_issues, project)
+      :name => project.name
+      #:issue_edit_allowed => User.current.allowed_to?(:edit_issues, project)
       #:description => project.description
  #     :issueCustomFiels => project.custom_fields
     )

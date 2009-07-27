@@ -15,7 +15,15 @@ class IssueService < BaseService
   web_service_api IssueApi
 
   def find_project rpcname, args
-   if rpcname==:search_tickets
+    current_project = Project.find_by_identifier(args[0])
+    projects = Project.find(:all, :conditions => "#{Project.visible_by}")
+    if projects.include?(current_project)
+      @project = current_project  
+    else
+      @project = nil
+    end
+      
+   /if rpcname==:search_tickets
      @query = retrieve_query(args[0], args[1], args[2])
      @project = @query.project
    elsif ( rpcname==:find_tickets_by_last_update || rpcname==:find_issue_for_project )
@@ -33,8 +41,16 @@ class IssueService < BaseService
    end
 #rescue
 #      false
+  /
   end
-
+# getter methods
+  def find_issue_for_project projectid
+    issues = Issue.find(:all, :conditions => ["project_id = ? ", @project.id])
+    issues.collect! {|x| IssueDto.create(x)}#complete_dto(x, IssueDto.create(x))}
+    return issues
+  end
+  
+  #TODO: rewrite following
   def create_issue_for_project (project_identifier, task_subject, task_description,task_tracker,task_priority, task_created_on, task_updated_on, task_start_date, task_due_date, task_estimated_hours, deliverable_identifier, user_identifier, user_role)
 		
 		# number of estimated hours
@@ -160,12 +176,6 @@ class IssueService < BaseService
     dto = IssueDto.create(@issue)
     complete_dto(@issue, dto)
     return dto
-  end
-  
-  def find_issue_for_project projectid
-    issues = Issue.find(:all, :conditions => ["project_id = ? ", @project.id])
-    issues.collect! {|x|complete_dto(x, IssueDto.create(x))}
-    return issues
   end
 
   def find_issue_for_project2 projectidentifier
@@ -368,20 +378,20 @@ class IssueService < BaseService
     #attachments.collect! {|x|AttachmentDto.create(x)}
     #dto.all_attachments = attachments.compact
     
-   project = issue.project
-   if project
+    project = issue.project
+    if project
     	dto.project_name = project.name
     end
 
     enumerations = Enumeration::get_values('IPRI')
 	# on retrouve la bonne priorité et on l'enregistre
-	dto.priority = ""
-	enumerations.each do |priorite|
-		if priorite.id == issue.priority_id
-			# la méthode tostring de l'objet enumération retourne le nom de l'objet
-			dto.priority = priorite.to_s()
-		end
-	end
+	  dto.priority = ""
+	  enumerations.each do |priorite|
+		  if priorite.id == issue.priority_id
+  			# la méthode tostring de l'objet enumération retourne le nom de l'objet
+  			dto.priority = priorite.to_s()
+  		end
+	  end
 	
     relations = issue.relations
     relations.collect! {|x|IssueRelationDto.create(x)}

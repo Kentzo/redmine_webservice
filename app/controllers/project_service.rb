@@ -11,7 +11,7 @@ require File.dirname(__FILE__) + '/../struct/boolean_dto'
 class ProjectService < ActionWebService::Base
 
   web_service_api ProjectApi
-  
+#getter methods
   def find_all 
     projects = Project.find(:all, :joins => :enabled_modules,
                   :conditions => [ "enabled_modules.name = 'issue_tracking' AND #{Project.visible_by}"])

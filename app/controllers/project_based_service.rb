@@ -16,54 +16,70 @@ class ProjectBasedService < BaseService
   web_service_api ProjectBasedApi
 
   def find_project rpcname, args
-    @project = Project.find(args[0])
+    current_project = Project.find_by_identifier(args[0])
+    projects = Project.find(:all, :conditions => "#{Project.visible_by}")
+    if projects.include?(current_project)
+      @project = current_project  
+    else
+      @project = nil
+    end
     rescue
       false
   end
-
+  
   def get_trackers_for_project id
-    tmp = @project.trackers.find(:all);
-    trackers = Array.new(tmp.size)
-    tmp.each { |element| 
-      trackers.push(TrackerDto.create(element))
-    }
+    if @project
+      tmp = @project.trackers.find(:all);
+      trackers = Array.new(tmp.size)
+      tmp.each { |element| 
+        trackers.push(TrackerDto.create(element))
+      }
+    end
   end
   
   def get_issue_custom_fields_for_project id
-    custom_fields = @project.methods.include?('all_issue_custom_fields') ? @project.all_issue_custom_fields : @project.all_custom_fields;
-    custom_fields.collect! { |x| IssueCustomFieldDto.create(x) }
-    return custom_fields.compact
+    if @project
+      custom_fields = @project.methods.include?('all_issue_custom_fields') ? @project.all_issue_custom_fields : @project.all_custom_fields;
+      custom_fields.collect! { |x| IssueCustomFieldDto.create(x) }
+      return custom_fields.compact
+    end
   end
   
   def get_issue_categorys_for_project id
-    tmp = @project.issue_categories
-    categorys = Array.new(tmp.size)
-    tmp.each { |element| 
-      categorys.push(IssueCategoryDto.create(element))
-    }
+    if @project
+      tmp = @project.issue_categories
+      categorys = Array.new(tmp.size)
+      tmp.each { |element| categorys.push(IssueCategoryDto.create(element))}
+    end
   end
 
   def get_members_for_project id
-    members = @project.members
-    members.collect!{|x|MemberDto.create(x)}
-    return members
+    if @project
+      members = @project.members
+      members.collect!{|x|MemberDto.create(x)}
+      return members
+    end
   end
 
   def get_versions_for_project id
-    versions = @project.versions
-    versions.collect!{|x|VersionDto.create(x)}
-    return versions
+    if @project
+      versions = @project.versions
+      versions.collect!{|x|VersionDto.create(x)}
+      return versions
+    end
   end
 
   def get_queries_for_project id
+    if @project
     # Code form Issue_helper
-    visible = ARCondition.new(["is_public = ? OR user_id = ?", true, User.current.id])
-    visible << (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
-    queries = Query.find(:all,
-                         :order => "name ASC",
-                         :conditions => visible.conditions)
-    queries.collect!{|x|QueryDto.create(x)}
-    return queries.compact
+      visible = ARCondition.new(["is_public = ? OR user_id = ?", true, User.current.id])
+      visible << (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
+      queries = Query.find(:all,
+                           :order => "name ASC",
+                           :conditions => visible.conditions)
+      queries.collect!{|x|QueryDto.create(x)}
+      return queries.compact
+    end
   end
   
   def find_or_create_user(username, user_mail, project=nil, price_per_hour = nil , role_per_group = nil)
@@ -106,6 +122,5 @@ class ProjectBasedService < BaseService
 		end
 		u
 	end
-
 
 end

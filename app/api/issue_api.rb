@@ -11,6 +11,11 @@ require File.dirname(__FILE__) + '/../struct/attachment_dto'
 require File.dirname(__FILE__) + '/../struct/issue_relation_dto'
 
 class IssueApi < ActionWebService::API::Base
+  api_method :find_issue_for_project,
+    :expects => [:string],
+    :returns => [[IssueDto]]
+    
+  #TODO rewrite following
   api_method :find_ticket_by_id,
     :expects => [:int],
     :returns => [IssueDto]
@@ -51,10 +56,6 @@ class IssueApi < ActionWebService::API::Base
     :expects => [:int],
     :returns => [IssueDto]
     
-  api_method :find_issue_for_project,
-    :expects => [:int],
-    :returns => [[IssueDto]]
-    
   api_method :add_time_entry_for_ticket,
     :expects => [:int, :string, :string, :string, :int],
     :returns => [IssueDto]
@@ -78,7 +79,5 @@ class IssueApi < ActionWebService::API::Base
   #api_method :assign_issue_to_user,
   #  :expects => [:int, :string, :string],
   #  :returns => [IssueDto]
-     
-   
   
 end
