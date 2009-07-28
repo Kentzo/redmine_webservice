@@ -44,10 +44,12 @@ class IssueService < BaseService
   /
   end
 # getter methods
-  def find_issue_for_project projectid
-    issues = Issue.find(:all, :conditions => ["project_id = ? ", @project.id])
-    issues.collect! {|x| IssueDto.create(x)}#complete_dto(x, IssueDto.create(x))}
-    return issues
+  def find_issues_for_project projectid
+    if @project
+      issues = Issue.find(:all, :conditions => ["project_id = ? ", @project.id])
+      issues.collect! {|x| IssueDto.create(x)}#complete_dto(x, IssueDto.create(x))}
+      return issues
+    end
   end
   
   #TODO: rewrite following
