@@ -13,21 +13,28 @@ class ProjectService < ActionWebService::Base
   web_service_api ProjectApi
 #getter methods
   def find_all 
-    projects = Project.find(:all, :joins => :enabled_modules,
-                  :conditions => [ "enabled_modules.name = 'issue_tracking' AND #{Project.visible_by}"])
+    #projects = Project.find(:all, :joins => :enabled_modules,
+    #              :conditions => [ "enabled_modules.name = 'issue_tracking' AND #{Project.visible_by}"])
+    projects = Project.find(:all, :conditions => [ "#{Project.visible_by}"])
     projects.collect! {|x|ProjectDto.create(x)}
     return projects
   end
   
   def find_one_project(projectId)
     project = Project.find_by_identifier(projectId)
-    projects = Project.find(:all, :joins => :enabled_modules,
-                  :conditions => [ "enabled_modules.name = 'issue_tracking' AND #{Project.visible_by}"])
+    projects = Project.find(:all, :conditions => [ "#{Project.visible_by}"])
     if projects.include?(project)
       dto_project = ProjectDto.create(project)
     end
   end
   
+  def description_one_project(projectId)
+    project = Project.find_by_identifier(projectId)
+    projects = Project.find(:all, :conditions => [ "#{Project.visible_by}"])
+    if projects.include?(project)
+      return project.description
+    end
+  end
   /def create_one_project(projectIdentifier, projectName, projectDescription)
     # I look for a project with this identifier
     project = Project.find_by_identifier(projectIdentifier)

@@ -8,13 +8,15 @@ require File.dirname(__FILE__) + '/../struct/tracker_dto'
 require File.dirname(__FILE__) + '/../struct/issue_category_dto'
 require File.dirname(__FILE__) + '/../struct/member_dto'
 require File.dirname(__FILE__) + '/../struct/version_dto'
-require File.dirname(__FILE__) + '/../struct/issue_status_dto'
+#require File.dirname(__FILE__) + '/../struct/issue_status_dto'
 require File.dirname(__FILE__) + '/../struct/issue_custom_field_dto'
 require File.dirname(__FILE__) + '/../struct/query_dto'
 
 class ProjectBasedApi < ActionWebService::API::Base
 
   #getter methods
+  
+#TODO: give up
   api_method :get_trackers_for_project,
     :expects => [:string],
     :returns => [[TrackerDto]]

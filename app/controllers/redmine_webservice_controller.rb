@@ -16,6 +16,8 @@ class RedmineWebserviceController < ActionController::Base
   web_service :Priority, PriorityService.new
   web_service :ProjectBased, ProjectBasedService.new
   web_service :Status, StatusService.new
+  web_service :Role, RoleService.new
+  web_service :Tracker, TrackerService.new
   
   def authenticate
     if params[:methodCall] && params[:methodCall][:methodName] && params[:methodCall][:methodName].include?('Information.')

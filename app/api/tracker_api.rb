@@ -4,11 +4,9 @@
 #													*
 #****************************************************
 
-class InformationApi < ActionWebService::API::Base
-  api_method :get_version,
-    :returns => [[:string]]
+require File.dirname(__FILE__) + '/../struct/tracker_dto'
 
-  api_method :check_credentials,
-    :expects => [:string, :string],
-    :returns => [:bool]
+class TrackerApi < ActionWebService::API::Base
+  api_method :get_all,
+    :returns => [[TrackerDto]]
 end

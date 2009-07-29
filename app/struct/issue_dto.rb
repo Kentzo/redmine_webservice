@@ -1,21 +1,21 @@
-require File.dirname(__FILE__) + '/custom_value_dto'
-require File.dirname(__FILE__) + '/issue_status_dto'
-require File.dirname(__FILE__) + '/journal_dto'
-require File.dirname(__FILE__) + '/attachment_dto'
-require File.dirname(__FILE__) + '/issue_relation_dto'
+#require File.dirname(__FILE__) + '/custom_value_dto'
+#require File.dirname(__FILE__) + '/issue_status_dto'
+#require File.dirname(__FILE__) + '/journal_dto'
+#require File.dirname(__FILE__) + '/attachment_dto'
+#require File.dirname(__FILE__) + '/issue_relation_dto'
 
 class IssueDto < ActionWebService::Struct
 #:category, :status, :priority, :fixed_version, :start_date,  :estimated_hours
 #information for view
-  member :number, :int
+  member :id, :int
   member :subject, :string
   member :description, :string
   member :author, :string
   member :assigned_to, :string
-  member :status, :string
+  member :status_id, :int #use with StatusApi::get_all method
   member :priority, :string
   member :category, :string
-  member :tracker, :string
+  member :tracker, :int #use with TrackerApi::get_all method
    
   member :created_on, :datetime
   member :updated_on, :datetime
@@ -46,15 +46,15 @@ class IssueDto < ActionWebService::Struct
     #custom_values.compact!
     
     return IssueDto.new(
-      :number => issue.id,
+      :id => issue.id,
       :subject => issue.subject,
       :description => issue.description,
       :author => issue.author.name,
       :assigned_to => issue.assigned_to,
-      :status => issue.status,
+      :status_id => issue.status.id,
       :priority => issue.priority,
       :category => issue.category,
-      :tracker => issue.tracker,  
+      :tracker_id => issue.tracker_id,  
       
       :created_on => issue.created_on,
       :updated_on => issue.updated_on,

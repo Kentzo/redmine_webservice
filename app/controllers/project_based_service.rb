@@ -9,7 +9,7 @@ require File.dirname(__FILE__) + '/../struct/tracker_dto'
 require File.dirname(__FILE__) + '/../struct/issue_category_dto'
 require File.dirname(__FILE__) + '/../struct/member_dto'
 require File.dirname(__FILE__) + '/../struct/version_dto'
-require File.dirname(__FILE__) + '/../struct/issue_status_dto'
+#require File.dirname(__FILE__) + '/../struct/issue_status_dto'
 require File.dirname(__FILE__) + '/../struct/issue_custom_field_dto'
 
 class ProjectBasedService < BaseService
@@ -27,6 +27,7 @@ class ProjectBasedService < BaseService
       false
   end
   
+#TODO: give up
   def get_trackers_for_project id
     if @project
       tmp = @project.trackers.find(:all);

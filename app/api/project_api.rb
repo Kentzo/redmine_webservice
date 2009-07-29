@@ -16,6 +16,10 @@ class ProjectApi < ActionWebService::API::Base
   api_method :find_one_project,
     :expects => [:string],
     :returns => [ProjectDto]
+    
+  api_method :description_one_project,
+    :expects => [:string],
+    :returns => [:string]
     /
   api_method :create_one_project,
   	:expects => [:string, :string, :string],

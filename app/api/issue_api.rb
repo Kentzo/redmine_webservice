@@ -19,7 +19,7 @@ class IssueApi < ActionWebService::API::Base
   api_method :find_ticket_by_id,
     :expects => [:int],
     :returns => [IssueDto]
-  
+
   api_method :find_allowed_statuses_for_issue,
     :expects => [:int],
     :returns => [[IssueStatusDto]]

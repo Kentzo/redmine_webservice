@@ -255,6 +255,7 @@ class IssueService < BaseService
     return dto
   end
   
+#TODO: rewrite using issue.status.id instead IssueStatusDto
   def find_allowed_statuses_for_issue(id)
     statuses = @issue.new_statuses_allowed_to(User.current)
     

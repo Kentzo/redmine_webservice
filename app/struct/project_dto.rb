@@ -1,3 +1,6 @@
+require File.dirname(__FILE__) + '/tracker_dto'
+require File.dirname(__FILE__) + '/version_dto'
+
 class ProjectDto < ActionWebService::Struct
 #          <id xsi:type="xsd:int">1</id>
 #          <name xsi:type="xsd:string">Redmine Mylyn Webservice</name>
@@ -11,23 +14,20 @@ class ProjectDto < ActionWebService::Struct
 #          <identifier xsi:type="xsd:string">redmine-mylyn</identifier>
 #          <status xsi:type="xsd:int">1</status>
 
-  member :number, :int
+  member :id, :int
   member :identifier, :string
   member :name, :string
-  #member :issue_edit_allowed, :boolean
-  #member :description, :string
-  #member :project_saved, :boolean
-  #member :new_project, :boolean
+  member :trackers, [:int]
   
-  def self.create project
+  def self.create(project)
+    trackers = project.trackers.find(:all);
+    trackers.collect! {|x| x.id}
+    
     ProjectDto.new(
-    #information for view
-      :number => project.id,
+      :id => project.id,
       :identifier => project.identifier,
-      :name => project.name
-      #:issue_edit_allowed => User.current.allowed_to?(:edit_issues, project)
-      #:description => project.description
- #     :issueCustomFiels => project.custom_fields
+      :name => project.name,
+      :trackers => trackers
     )
   end
   

@@ -21,5 +21,4 @@ class InformationService < ActionWebService::Base
       false
     end
   end
-  
 end
