@@ -16,7 +16,7 @@ class IssueApi < ActionWebService::API::Base
     :returns => [[IssueDto]]
     
   #TODO rewrite following
-  api_method :find_ticket_by_id,
+  /api_method :find_ticket_by_id,
     :expects => [:int],
     :returns => [IssueDto]
 
@@ -78,6 +78,6 @@ class IssueApi < ActionWebService::API::Base
    
   #api_method :assign_issue_to_user,
   #  :expects => [:int, :string, :string],
-  #  :returns => [IssueDto]
+  #  :returns => [IssueDto]/
   
 end

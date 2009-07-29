@@ -9,7 +9,7 @@ require File.dirname(__FILE__) + '/../struct/deliverable_dto'
 
 class DeliverableApi < ActionWebService::API::Base
  
-  api_method :find_deliverable_by_id,
+  /api_method :find_deliverable_by_id,
     :expects => [:int],
     :returns => [DeliverableDto]
     
@@ -27,6 +27,6 @@ class DeliverableApi < ActionWebService::API::Base
     
   api_method :find_deliverables_for_project,
     :expects => [:string],
-    :returns => [[DeliverableDto]]
+    :returns => [[DeliverableDto]]/
 
 end

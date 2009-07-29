@@ -13,8 +13,6 @@ require File.dirname(__FILE__) + '/../struct/issue_custom_field_dto'
 require File.dirname(__FILE__) + '/../struct/query_dto'
 
 class ProjectBasedApi < ActionWebService::API::Base
-
-  #getter methods
   
 #TODO: give up
   /api_method :get_trackers_for_project,
