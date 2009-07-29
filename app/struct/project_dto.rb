@@ -1,5 +1,4 @@
 require File.dirname(__FILE__) + '/tracker_dto'
-require File.dirname(__FILE__) + '/version_dto'
 
 class ProjectDto < ActionWebService::Struct
 #          <id xsi:type="xsd:int">1</id>
@@ -17,11 +16,11 @@ class ProjectDto < ActionWebService::Struct
   member :id, :int
   member :identifier, :string
   member :name, :string
-  member :trackers, [:int]
+  member :trackers, [TrackerDto]
   
   def self.create(project)
-    trackers = project.trackers.find(:all);
-    trackers.collect! {|x| x.id}
+    trackers = project.trackers.find(:all)
+    trackers.collect! {|x| TrackerDto.create(x)}
     
     ProjectDto.new(
       :id => project.id,

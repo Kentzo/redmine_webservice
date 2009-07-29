@@ -17,7 +17,7 @@ class ProjectBasedApi < ActionWebService::API::Base
   #getter methods
   
 #TODO: give up
-  api_method :get_trackers_for_project,
+  /api_method :get_trackers_for_project,
     :expects => [:string],
     :returns => [[TrackerDto]]
   
@@ -39,6 +39,6 @@ class ProjectBasedApi < ActionWebService::API::Base
 
   api_method :get_queries_for_project,
     :expects => [:string],
-    :returns => [[QueryDto]]
+    :returns => [[QueryDto]]/
 
 end
