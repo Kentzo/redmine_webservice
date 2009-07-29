@@ -12,10 +12,10 @@ class IssueDto < ActionWebService::Struct
   member :description, :string
   member :author, :string
   member :assigned_to, :string
-  member :status_id, :int #use with StatusApi::get_all method
+  member :status, :string
   member :priority, :string
   member :category, :string
-  member :tracker, :int #use with TrackerApi::get_all method
+  member :tracker_id, :int
    
   member :created_on, :datetime
   member :updated_on, :datetime
@@ -51,7 +51,7 @@ class IssueDto < ActionWebService::Struct
       :description => issue.description,
       :author => issue.author.name,
       :assigned_to => issue.assigned_to,
-      :status_id => issue.status.id,
+      :status => issue.status,
       :priority => issue.priority,
       :category => issue.category,
       :tracker_id => issue.tracker_id,  
