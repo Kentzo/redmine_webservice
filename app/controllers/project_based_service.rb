@@ -16,9 +16,9 @@ class ProjectBasedService < BaseService
   web_service_api ProjectBasedApi
 
   def find_project rpcname, args
-    current_project = Project.find_by_identifier(args[0])
-    projects = Project.find(:all, :conditions => "#{Project.visible_by}")
-    if projects.include?(current_project)
+    current_project = Project.find(:first, :conditions => ["identifier = :projectId AND #{Project.visible_by}",
+                                                                        {:projectId => args[0]}])
+    if current_project
       @project = current_project  
     else
       @project = nil
