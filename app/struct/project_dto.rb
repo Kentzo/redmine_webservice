@@ -16,17 +16,19 @@ class ProjectDto < ActionWebService::Struct
   member :id, :int
   member :identifier, :string
   member :name, :string
-  member :trackers, [TrackerDto]
+  member :role_id, :int #will empty if user is the 'admin' or the 'non a member'
+  member :trackers_ids, [:int]
   
   def self.create(project)
     trackers = project.trackers.find(:all)
-    trackers.collect! {|x| TrackerDto.create(x)}
-    
+    trackers.collect! {|x| x.id}
+    member = project.members.find(:first, :conditions => ["user_id = :userid", {:userid => user.id}])
     ProjectDto.new(
       :id => project.id,
       :identifier => project.identifier,
       :name => project.name,
       :trackers => trackers
+      :role_id => member.role.id
     )
   end
   

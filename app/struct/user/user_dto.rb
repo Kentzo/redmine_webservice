@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/role_dto'
+require File.dirname(__FILE__) + '/../role_dto'
 
 class UserDto < ActionWebService::Struct
   member :roles, [RoleDto]
