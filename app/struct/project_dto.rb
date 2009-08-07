@@ -16,19 +16,34 @@ class ProjectDto < ActionWebService::Struct
   member :id, :int
   member :identifier, :string
   member :name, :string
-  member :role_id, :int #will empty if user is the 'admin' or the 'non a member'
+  member :role_id, :int #will empty if user is the 'admin'
   member :trackers_ids, [:int]
+  member :issue_categories_ids, [:int]
   
-  def self.create(project)
+  def self.create(project, user)
     trackers = project.trackers.find(:all)
     trackers.collect! {|x| x.id}
+    trackers.sort!
+    
     member = project.members.find(:first, :conditions => ["user_id = :userid", {:userid => user.id}])
+    role_id = nil
+    if member
+      role_id = member.role.id
+    elsif !user.admin?
+      role_id = 1
+    end
+    
+    issue_categories = project.issue_categories
+    issue_categories.collect! { |category| category.id }
+    issue_categories.sort!
+    
     ProjectDto.new(
       :id => project.id,
       :identifier => project.identifier,
       :name => project.name,
-      :trackers => trackers
-      :role_id => member.role.id
+      :trackers_ids => trackers,
+      :role_id => role_id,
+      :issue_categories_ids => issue_categories
     )
   end
   

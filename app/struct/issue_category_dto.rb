@@ -6,10 +6,26 @@ class IssueCategoryDto < ActionWebService::Struct
   member :id, :int
   member :name, :string
   
-  def IssueCategoryDto.create category
+  def IssueCategoryDto.create(category)
     IssueCategoryDto.new(
       :id => category.id,
       :name => category.name
     )
+  end
+  
+  def <=>(field)
+    id <=> field.id
+  end
+  
+  def hash
+    id.hash
+  end
+  
+  def eql?(r)
+    self == r
+  end
+  
+  def ==(r)
+    id == r.id
   end
 end

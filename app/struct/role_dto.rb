@@ -33,6 +33,7 @@ class RoleDto < ActionWebService::Struct
       id = member.role.id
     else
       name = 'Non a member'
+      id = 1
     end
     
     RoleDto.new(
@@ -48,6 +49,10 @@ class RoleDto < ActionWebService::Struct
       :time_tracking_permissions => TimeTrackingPermissionsDto.create(project, user),
       :wiki_permissions => WikiPermissionsDto.create(project, user)
     )
+  end
+  
+  def <=>(field)
+    id <=> field.id
   end
   
   def hash

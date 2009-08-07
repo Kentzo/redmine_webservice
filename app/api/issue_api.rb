@@ -11,9 +11,6 @@ require File.dirname(__FILE__) + '/../struct/attachment_dto'
 require File.dirname(__FILE__) + '/../struct/issue_relation_dto'
 
 class IssueApi < ActionWebService::API::Base
-  api_method :find_issues_for_project,
-    :expects => [:string],
-    :returns => [[IssueDto]]
     
   #TODO rewrite following
   /api_method :find_ticket_by_id,

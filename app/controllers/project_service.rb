@@ -6,6 +6,7 @@
 
 require File.dirname(__FILE__) + '/../api/project_api'
 require File.dirname(__FILE__) + '/../struct/project_dto'
+require File.dirname(__FILE__) + '/../struct/issue_dto'
 require File.dirname(__FILE__) + '/../struct/boolean_dto'
 
 class ProjectService < ActionWebService::Base
@@ -14,7 +15,7 @@ class ProjectService < ActionWebService::Base
 #getter methods
   def find_all 
     projects = Project.find(:all, :conditions => [ "#{Project.visible_by}"])
-    projects.collect! {|x|ProjectDto.create(x)}
+    projects.collect! {|x|ProjectDto.create(x, User.current)}
     return projects
   end
   
@@ -22,7 +23,7 @@ class ProjectService < ActionWebService::Base
     project = Project.find(:first, :conditions => ["identifier = :projectId AND #{Project.visible_by}",
                                                                         {:projectId => projectId}])
     if project
-      dto_project = ProjectDto.create(project)
+      dto_project = ProjectDto.create(project, User.current)
     end
   end
   
@@ -31,6 +32,16 @@ class ProjectService < ActionWebService::Base
                                                                         {:projectId => projectId}])
     if project
       return project.description
+    end
+  end
+  
+  def find_issues_for_project(projectId)
+    project = Project.find(:first, :conditions => ["identifier = :projectId AND #{Project.visible_by}",
+                                                                        {:projectId => projectId}])
+    if project
+      issues = Issue.find(:all, :conditions => ["project_id = ? ", project.id])
+      issues.collect! {|x| IssueDto.create(x)}#complete_dto(x, IssueDto.create(x))}
+      return issues
     end
   end
   /def create_one_project(projectIdentifier, projectName, projectDescription)

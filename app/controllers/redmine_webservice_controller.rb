@@ -10,7 +10,7 @@ class RedmineWebserviceController < ActionController::Base
   web_service_dispatching_mode :layered
   
   web_service :Project, ProjectService.new
-  web_service :Ticket, IssueService.new
+  web_service :Issue, IssueService.new
   web_service :Information, InformationService.new
   web_service :Deliverable, DeliverableService.new
   web_service :ProjectBased, ProjectBasedService.new

@@ -44,13 +44,6 @@ class IssueService < BaseService
   /
   end
 # getter methods
-  def find_issues_for_project projectid
-    if @project
-      issues = Issue.find(:all, :conditions => ["project_id = ? ", @project.id])
-      issues.collect! {|x| IssueDto.create(x)}#complete_dto(x, IssueDto.create(x))}
-      return issues
-    end
-  end
   
   #TODO: rewrite following
   def create_issue_for_project (project_identifier, task_subject, task_description,task_tracker,task_priority, task_created_on, task_updated_on, task_start_date, task_due_date, task_estimated_hours, deliverable_identifier, user_identifier, user_role)

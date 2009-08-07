@@ -11,6 +11,10 @@ class TrackerDto < ActionWebService::Struct
       nil
   end
   
+  def <=>(field)
+    id <=> field.id
+  end
+  
   def hash
     id.hash
   end

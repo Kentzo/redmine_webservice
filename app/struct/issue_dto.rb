@@ -40,7 +40,7 @@ class IssueDto < ActionWebService::Struct
   #member :all_attachments, [AttachmentDto]
   #member :all_relations, [IssueRelationDto]
   
-  def self.create issue
+  def self.create(issue)
     #custom_values = issue.custom_values
     #custom_values.collect! { |x| CustomValueDto.create(x)}
     #custom_values.compact!
