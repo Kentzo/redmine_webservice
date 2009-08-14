@@ -1,11 +1,13 @@
 class TrackerDto < ActionWebService::Struct
   member :id, :int
+  member :position, :int
   member :name, :string
 
   def self.create tracker
     TrackerDto.new(
       :id => tracker.id,
-      :name => tracker.name
+      :name => tracker.name,
+      :position => tracker.position
     )
     rescue
       nil

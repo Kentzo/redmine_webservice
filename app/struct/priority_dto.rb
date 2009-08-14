@@ -14,4 +14,20 @@ class PriorityDto < ActionWebService::Struct
     rescue
       nil
   end
+  
+  def <=>(field)
+    id <=> field.id
+  end
+  
+  def hash
+    id.hash
+  end
+  
+  def eql?(r)
+    self == r
+  end
+  
+  def ==(r)
+    id == r.id
+  end
 end

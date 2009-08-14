@@ -12,8 +12,8 @@ class IssueDto < ActionWebService::Struct
   member :description, :string
   member :author, :string
   member :assigned_to, :string
-  member :status, :string
-  member :priority, :string
+  member :status_id, :int
+  member :priority_id, :int
   member :category, :string
   member :tracker_id, :int
    
@@ -51,8 +51,8 @@ class IssueDto < ActionWebService::Struct
       :description => issue.description,
       :author => issue.author.name,
       :assigned_to => issue.assigned_to,
-      :status => issue.status,
-      :priority => issue.priority,
+      :status_id => issue.status_id,
+      :priority_id => issue.priority_id,
       :category => issue.category,
       :tracker_id => issue.tracker_id,  
       

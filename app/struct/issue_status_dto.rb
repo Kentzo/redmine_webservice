@@ -17,4 +17,21 @@ class IssueStatusDto < ActionWebService::Struct
       :is_default => status.is_default
     )
   end
+  
+  def <=>(field)
+    id <=> field.id
+  end
+  
+  def hash
+    id.hash
+  end
+  
+  def eql?(r)
+    self == r
+  end
+  
+  def ==(r)
+    id == r.id
+  end
+  
 end

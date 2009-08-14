@@ -8,6 +8,8 @@ require File.dirname(__FILE__) + '/../api/user_api'
 require File.dirname(__FILE__) + '/../struct/user_dto'
 require File.dirname(__FILE__) + '/../struct/role_dto'
 require File.dirname(__FILE__) + '/../struct/tracker_dto'
+require File.dirname(__FILE__) + '/../struct/issue_status_dto'
+require File.dirname(__FILE__) + '/../struct/priority_dto'
 require File.dirname(__FILE__) + '/../struct/issue_category_dto'
 
 class UserService < ActionWebService::Base
@@ -42,6 +44,22 @@ class UserService < ActionWebService::Base
     trackers.uniq!
     trackers.sort!
     return trackers
+  end
+  
+  def available_statuses#TODO check status availability
+    statuses = IssueStatus.find(:all)
+    statuses.collect! {|x| IssueStatusDto.create(x)}
+    statuses.uniq!
+    statuses.sort!
+    return statuses
+  end
+    
+  def available_priorities#TODO check priority availability
+    priorities = Enumeration.get_values('IPRI')
+    priorities.collect! {|x| PriorityDto.create(x)}
+    #priorities.uniq!
+    priorities.sort!
+    return priorities
   end
   
   def available_issue_categories
