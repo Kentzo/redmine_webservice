@@ -25,7 +25,7 @@ class BaseService < ActionWebService::Base
     @@authorizemap[IssueService][:delete_ticket_for_project] = {:ctrl => :issues, :action => :show}
     
     @@authorizemap[ProjectBasedService] = Hash.new(nil)
-    @@authorizemap[ProjectBasedService][:get_trackers_for_project] = {:ctrl => :issues, :action => :index} #TODO: give up
+    @@authorizemap[ProjectBasedService][:get_trackers_for_project] = {:ctrl => :issues, :action => :index}
     @@authorizemap[ProjectBasedService][:get_issue_categorys_for_project] = {:ctrl => :issues, :action => :index}
     @@authorizemap[ProjectBasedService][:get_members_for_project] = {:ctrl => :issues, :action => :index}
     @@authorizemap[ProjectBasedService][:get_versions_for_project] = {:ctrl => :issues, :action => :index}

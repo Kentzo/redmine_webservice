@@ -7,7 +7,7 @@
 require File.dirname(__FILE__) + '/../api/issue_api'
 require File.dirname(__FILE__) + '/../struct/issue_dto'
 # require File.dirname(__FILE__) + '/../struct/issue_status_dto'
- require File.dirname(__FILE__) + '/../struct/journal_dto'
+require File.dirname(__FILE__) + '/../struct/journal_dto'
 # require File.dirname(__FILE__) + '/../struct/attachment_dto'
 # require 'enumerator'
 
@@ -15,12 +15,15 @@ class IssueService < ActionWebService::Base
   web_service_api IssueApi
   
   def find_journals_for_issue(issue_id)
-     issue = Issue.find(:first, :conditions => ["id = #{issue_id}"])
-      if issue
+    issue = Issue.find(:first, :conditions => ["id = #{issue_id}"])
+    if issue 
+      project = Project.find(:first, :conditions => ["id = #{issue.project.id} AND #{Project.visible_by}"])
+      if project
         journals = issue.journals.find(:all, :conditions => ["notes IS NOT NULL"])
         journals.collect! {|x| JournalDto.create(x)}
         return journals.compact
       end
+    end
   end
   # 
   #   def find_project rpcname, args
