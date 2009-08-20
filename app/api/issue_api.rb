@@ -5,12 +5,16 @@
 #****************************************************
  
 require File.dirname(__FILE__) + '/../struct/issue_dto'
-require File.dirname(__FILE__) + '/../struct/issue_status_dto'
-require File.dirname(__FILE__) + '/../struct/journal_dto'
-require File.dirname(__FILE__) + '/../struct/attachment_dto'
-require File.dirname(__FILE__) + '/../struct/issue_relation_dto'
+# require File.dirname(__FILE__) + '/../struct/issue_status_dto'
+ require File.dirname(__FILE__) + '/../struct/journal_dto'
+# require File.dirname(__FILE__) + '/../struct/attachment_dto'
+# require File.dirname(__FILE__) + '/../struct/issue_relation_dto'
 
 class IssueApi < ActionWebService::API::Base
+  
+  api_method :find_journals_for_issue,
+    :expects => [:int],
+    :returns => [[JournalDto]]
     
   #TODO rewrite following
   /api_method :find_ticket_by_id,

@@ -21,7 +21,7 @@ class RedmineWebserviceController < ActionController::Base
       return true;
     end
     if user = authenticate_with_http_basic { |u, p| User.try_to_login(u, p) }
-      User.current=(user);
+      User.current = (user);
       # if user is an administrator, then he can access to our webservices
       #if user.
       	return true

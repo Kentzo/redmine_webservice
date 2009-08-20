@@ -13,7 +13,6 @@ require File.dirname(__FILE__) + '/../struct/priority_dto'
 require File.dirname(__FILE__) + '/../struct/issue_category_dto'
 
 class UserService < ActionWebService::Base
-
   web_service_api UserApi
   
   def current 

@@ -10,8 +10,8 @@ require File.dirname(__FILE__) + '/../struct/issue_dto'
 require File.dirname(__FILE__) + '/../struct/boolean_dto'
 
 class ProjectService < ActionWebService::Base
+web_service_api ProjectApi
 
-  web_service_api ProjectApi
 #getter methods
   def find_all 
     projects = Project.find(:all, :conditions => [ "#{Project.visible_by}"])
