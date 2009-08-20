@@ -8,6 +8,7 @@ require File.dirname(__FILE__) + '/../api/project_api'
 require File.dirname(__FILE__) + '/../struct/project_dto'
 require File.dirname(__FILE__) + '/../struct/issue_dto'
 require File.dirname(__FILE__) + '/../struct/boolean_dto'
+require File.dirname(__FILE__) + '/../struct/journal_dto'
 
 class ProjectService < ActionWebService::Base
 web_service_api ProjectApi
@@ -44,6 +45,21 @@ web_service_api ProjectApi
       return issues
     end
   end
+  
+  def find_journals_for_project(projectId)
+    project = Project.find(:first, :conditions => ["identifier = :projectId AND #{Project.visible_by}", 
+                                                                        {:projectId => projectId}])
+                                                                        
+    if project
+      journals = []
+      project.issues.each { |issue|
+        journals.concat(issue.journals)
+      }
+      journals.collect! {|x| JournalDto.create(x)}#complete_dto(x, IssueDto.create(x))}
+      return journals.compact
+    end
+  end
+    
   /def create_one_project(projectIdentifier, projectName, projectDescription)
     # I look for a project with this identifier
     project = Project.find_by_identifier(projectIdentifier)

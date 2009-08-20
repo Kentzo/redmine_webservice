@@ -1,6 +1,6 @@
 #require File.dirname(__FILE__) + '/custom_value_dto'
 #require File.dirname(__FILE__) + '/issue_status_dto'
-#require File.dirname(__FILE__) + '/journal_dto'
+require File.dirname(__FILE__) + '/journal_dto'
 #require File.dirname(__FILE__) + '/attachment_dto'
 #require File.dirname(__FILE__) + '/issue_relation_dto'
 
@@ -36,7 +36,6 @@ class IssueDto < ActionWebService::Struct
   #member :project_name, :string
   #member :custom_values, [CustomValueDto]
   #member :all_status, [IssueStatusDto]
-  #member :all_journals, [JournalDto]
   #member :all_attachments, [AttachmentDto]
   #member :all_relations, [IssueRelationDto]
   
@@ -44,7 +43,6 @@ class IssueDto < ActionWebService::Struct
     #custom_values = issue.custom_values
     #custom_values.collect! { |x| CustomValueDto.create(x)}
     #custom_values.compact!
-    
     return IssueDto.new(
       :id => issue.id,
       :subject => issue.subject,
