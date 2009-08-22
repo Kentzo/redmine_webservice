@@ -25,6 +25,23 @@ class IssueService < ActionWebService::Base
       end
     end
   end
+
+  def add_comment_for_issue(issue_id, comments)
+    issue = Issue.find(:first, :conditions => ["id = #{issue_id}"])
+    if issue
+      project = Project.find(:first, :conditions => ["id = #{issue.project.id} AND #{Project.visible_by}"])
+      if project && User.current.allowed_to?(:add_issue_notes, project)
+        issue.init_journal(User.current, comments)
+        issue.save
+        return 1 #Save successful
+      else
+        return 0 #Access denied
+      end
+    else
+      return -1 #Issue deleted
+    end
+  end
+
   # 
   #   def find_project rpcname, args
   #     current_project = Project.find(:first, :conditions => ["identifier = :projectId AND #{Project.visible_by}",
@@ -246,19 +263,6 @@ class IssueService < ActionWebService::Base
   #     return dto
   #   end
   #   
-  #   def add_comment_for_ticket(task_id, user_identifier, comments)
-  #     # retrieve user
-  #     worker_user = User.find_by_login(user_identifier)
-  #   # prepare comment
-  #   notes = comments
-  #   journal = @issue.init_journal(worker_user, comments)
-  #   ## Recording the issue
-  #   @issue.save
-  #   
-  #     dto = IssueDto.create(@issue)
-  #     complete_dto(@issue, dto)
-  #     return dto
-  #   end
   #   
   # #TODO: rewrite using issue.status.id instead IssueStatusDto
   #   def find_allowed_statuses_for_issue(id)

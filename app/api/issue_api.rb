@@ -15,7 +15,10 @@ class IssueApi < ActionWebService::API::Base
   api_method :find_journals_for_issue,
     :expects => [:int],
     :returns => [[JournalDto]]
-    
+  api_method :add_comment_for_issue,
+    :expects => [:int, :string],
+    :returns => [:int]
+
   #TODO rewrite following
   /api_method :find_ticket_by_id,
     :expects => [:int],
