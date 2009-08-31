@@ -32,7 +32,7 @@ class RoleDto < ActionWebService::Struct
       name = member.role.name
       id = member.role.id
     else
-      name = 'Non a member'
+      name = 'Non member'
       id = 1
     end
     

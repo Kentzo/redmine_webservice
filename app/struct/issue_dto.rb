@@ -12,6 +12,7 @@ class IssueDto < ActionWebService::Struct
   member :description, :string
   member :author, :string
   member :assigned_to, :string
+  member :assigned_to_id, :int
   member :status_id, :int
   member :priority_id, :int
   member :category, :string
@@ -26,12 +27,8 @@ class IssueDto < ActionWebService::Struct
   member :estimated_hours, :double
 #other
   #float
-  #member :status_id, :int
   #member :category_id, :int
   #member :version_id, :int
-  #member :tracker_id, :int
-  #member :priority_id, :int
-  #member :assigned_to_id, :int
   #member :project_id, :int
   #member :project_name, :string
   #member :custom_values, [CustomValueDto]
@@ -49,6 +46,7 @@ class IssueDto < ActionWebService::Struct
       :description => issue.description,
       :author => issue.author.name,
       :assigned_to => issue.assigned_to,
+      :assigned_to_id => issue.assigned_to_id,
       :status_id => issue.status_id,
       :priority_id => issue.priority_id,
       :category => issue.category,
@@ -63,7 +61,6 @@ class IssueDto < ActionWebService::Struct
       :estimated_hours => issue.estimated_hours
       #:project_id => issue.project_id,
       #:project_name => "",
-      #:assigned_to_id => issue.assigned_to_id,
       #:priority_id => issue.priority_id,
       #:category_id => issue.category_id,
       #:version_id => issue.fixed_version_id,

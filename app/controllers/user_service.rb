@@ -45,7 +45,7 @@ class UserService < ActionWebService::Base
     return trackers
   end
   
-  def available_statuses#TODO check status availability
+  def available_statuses #TODO check status availability
     statuses = IssueStatus.find(:all)
     statuses.collect! {|x| IssueStatusDto.create(x)}
     statuses.uniq!
@@ -53,7 +53,7 @@ class UserService < ActionWebService::Base
     return statuses
   end
     
-  def available_priorities#TODO check priority availability
+  def available_priorities #TODO check priority availability
     priorities = Enumeration.get_values('IPRI')
     priorities.collect! {|x| PriorityDto.create(x)}
     #priorities.uniq!

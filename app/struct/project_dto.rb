@@ -27,10 +27,12 @@ class ProjectDto < ActionWebService::Struct
     
     member = project.members.find(:first, :conditions => ["user_id = :userid", {:userid => user.id}])
     role_id = nil
-    if member
-      role_id = member.role.id
-    elsif !user.admin?
-      role_id = 1
+    if !user.admin?
+      if member
+        role_id = member.role.id
+      elsif
+        role_id = 1
+      end
     end
     
     issue_categories = project.issue_categories
