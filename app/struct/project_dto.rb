@@ -16,15 +16,22 @@ class ProjectDto < ActionWebService::Struct
   member :id, :int
   member :identifier, :string
   member :name, :string
+  member :description, :string
   member :role_id, :int #will empty if user is the 'admin'
   member :trackers_ids, [:int]
   member :issue_categories_ids, [:int]
+  member :members_ids, [:int]
   
   def self.create(project, user)
+    #collect trackers ids
     trackers = project.trackers.find(:all)
     trackers.collect! {|x| x.id}
     trackers.sort!
-    
+    #collect members ids
+    members = project.members.find(:all)
+    members.collect! {|x| x.id}
+    members.sort!
+
     member = project.members.find(:first, :conditions => ["user_id = :userid", {:userid => user.id}])
     role_id = nil
     if !user.admin?
@@ -43,9 +50,11 @@ class ProjectDto < ActionWebService::Struct
       :id => project.id,
       :identifier => project.identifier,
       :name => project.name,
+      :description => project.short_description
       :trackers_ids => trackers,
       :role_id => role_id,
-      :issue_categories_ids => issue_categories
+      :issue_categories_ids => issue_categories,
+      :members_ids => members
     )
   end
   

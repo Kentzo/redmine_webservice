@@ -9,6 +9,7 @@ require File.dirname(__FILE__) + '/../struct/project_dto'
 require File.dirname(__FILE__) + '/../struct/issue_dto'
 require File.dirname(__FILE__) + '/../struct/boolean_dto'
 require File.dirname(__FILE__) + '/../struct/journal_dto'
+require File.dirname(__FILE__) + '/../struct/member_dto'
 
 class ProjectService < ActionWebService::Base
 web_service_api ProjectApi
@@ -60,6 +61,16 @@ web_service_api ProjectApi
     end
   end
     
+  def find_members_for_project(projectId)
+    project = Project.find(:first, :conditions => ["identifier = ? AND #{Project.visible_by}", projectId])
+    
+    if project
+      members = Member.find(:all, :conditions => ["project_id = ?", project.id])
+      members.collect! {|x| MemberDto.create(x)}
+      return members
+    end
+  end
+
   /def create_one_project(projectIdentifier, projectName, projectDescription)
     # I look for a project with this identifier
     project = Project.find_by_identifier(projectIdentifier)
