@@ -13,6 +13,7 @@ class ProjectDto < ActionWebService::Struct
 
   member :id, :int
   member :identifier, :string
+  member :short_description, :string
   member :name, :string
   member :issue_edit_allowed, :boolean
   member :project_saved, :boolean
@@ -22,6 +23,7 @@ class ProjectDto < ActionWebService::Struct
     ProjectDto.new(
       :id => project.id,
       :identifier => project.identifier,
+      :short_description => project.short_description,
       :name => project.name,
       :issue_edit_allowed => User.current.allowed_to?(:edit_issues, project)
  #     :issueCustomFiels => project.custom_fields
@@ -32,6 +34,7 @@ class ProjectDto < ActionWebService::Struct
   	return ProjectDto.new(
       :id => project.id,
       :identifier => project.identifier,
+      :short_description => project.short_description,
       :name => project.name,
       :issue_edit_allowed => User.current.allowed_to?(:edit_issues, project),
       :project_saved => boo_saved,
